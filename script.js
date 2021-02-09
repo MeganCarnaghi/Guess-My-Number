@@ -9,60 +9,64 @@ let score = 20;
 // Declare the highscore variable
 let highScore = 0;
 
+// A function to set the text content for the message the user sees based on their guess
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
+// a function to set the text content for the score
+const setScore = function (score) {
+  document.querySelector('.score').textContent = score;
+};
+
+// A function to change the text content of the number class (question mark)
+const changeNumberContent = function (value) {
+  document.querySelector('.number').textContent = value;
+};
+
+// A function to change the styling for the number class (question mark)
+const changeNumberStyle = function (style) {
+  document.querySelector('.number').style.width = style;
+};
+
+// A function to change the style of the body
+const changeBodyStyle = function (style) {
+  document.querySelector('body').style.backgroundColor = style;
+};
+
 // Selecting the "Check" button. Adding an event listener so that when the button is clicked, we log the value in the input into a variable called "guess." Use the "Number" method to convert the input to a number.
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
   // If there is not a number in the input field when the check button is clicked, change the message displayed to the user.
   if (!guess) {
-    document.querySelector('.message').textContent = `⛔️ No number entered!`;
+    displayMessage(`⛔️ No number entered!`);
     // If the guess is equal to the SecretNumber (player wins), change message, display secret message and background color
   } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = `✅ That's Correct!`;
-    document.querySelector('.number').textContent = secretNumber;
-    document.querySelector('body').style.backgroundColor = '#60b347';
-    document.querySelector('.number').style.width = '30rem';
+    displayMessage(`✅ That's Correct!`);
+    changeNumberContent(secretNumber);
+    changeBodyStyle('#60b347');
+    changeNumberStyle('30rem');
 
     // Compare score to highscore, if the score is greater than the current highscore, change the highscore to the score
     if (score > highScore) {
       highScore = score;
-      document.querySelector('.highscore').textContent = score;
-    }
-    // If the guess is higher than the SecretNumber, change user message, decrease score by 1. If the score gets below 1, the game is over.
-  } else if (guess > secretNumber) {
-    if (score > 1) {
-      document.querySelector(
-        '.message'
-      ).textContent = `❌ Your guess is too high.`;
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector(
-        '.message'
-      ).textContent = `You lost. The game is over. 😭`;
-      document.querySelector('.score').textContent = 0;
+      document.querySelector('.highscore').textContent = highScore;
     }
 
-    // If the guess is lower than the SecretNumber, change user message, decrease score by 1. If the score gets below 1, the game is over.
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      document.querySelector(
-        '.message'
-      ).textContent = `❌ Your guess is too low.`;
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector(
-        '.message'
-      ).textContent = `You lost. The game is over. 😭`;
-      document.querySelector('.score').textContent = 0;
-    }
+    // When guess is too high or too low - change user message, decrease score by 1. If the score gets below 1, the game is over.
+  } else if (guess !== secretNumber) {
+    displayMessage(
+      guess > secretNumber
+        ? `❌ Your guess is too high.`
+        : `❌ Your guess is too low.`
+    );
+    score--;
+    setScore(score);
+  } else {
+    displayMessage(`You lost. The game is over. 😭`);
+    setScore(0);
   }
 });
-
-// Setting the functionality for the "Again" button to refresh the page.
-// document.querySelector('.again').addEventListener('click', function () {
-//   window.location.reload();
-// });
 
 // Setting the functionality for the "Again" button to refresh the page.
 document.querySelector('.again').addEventListener('click', function () {
@@ -72,16 +76,16 @@ document.querySelector('.again').addEventListener('click', function () {
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   // Restore initial conditions of message, score and input field
   // Message
-  document.querySelector('.message').textContent = `Start guessing...`;
+  displayMessage(`Start guessing...`);
   // Initial Score
-  document.querySelector('.score').textContent = score;
+  setScore(score);
   // Question Mark
-  document.querySelector('.number').textContent = '?';
+  changeNumberContent('?');
   // Input Field
   document.querySelector('.guess').value = ' ';
   // Restore the background color and number width
   // Background Color
-  document.querySelector('body').style.backgroundColor = '#222';
+  changeBodyStyle('#222');
   // Number Width
-  document.querySelector('.number').style.width = '15rem';
+  changeNumberStyle('15rem');
 });
