@@ -8,6 +8,6 @@
 * JavaScript
 
 ## Link
-Link to deployed application:
+Link to deployed application: https://megancarnaghi.github.io/Guess-My-Number/
 
 ## Screenshot
