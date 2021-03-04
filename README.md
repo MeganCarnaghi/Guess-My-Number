@@ -1,6 +1,7 @@
 # Guess My Number
 
 ## Description
+A web-based number guessing game.
 
 ## Technologies Used
 * HTML
